@@ -2,9 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
+
 
 public class HTTPTest : MonoBehaviour
 {
+
+    public float ATMListItemOffset;
+
+    public GameObject ATMList;
+    public GameObject ATMScrollView;
+    public GameObject ATMListItem;
+
+    public GameObject bg1;
+    public GameObject bg2;
+
+
     [System.Serializable]
     public class ATMData
     {
@@ -37,25 +50,44 @@ public class HTTPTest : MonoBehaviour
     }
 
 
+    public void GetATMLocation(){
+
+        string ATMRequestString = "{\r\n\t\"latitude\":\"1236547893\",\r\n\t\"longitude\":\"98765432139\",\r\n\t\"radius\":\"5\",\r\n\t\"city\":\"Istanbul\",\r\n\t\"district\":\"Ataşehir\",\r\n\t\"searchText\":\"akbank\"\r\n}\r\n";
+
+        StartCoroutine(FindATM("https://apigate.akbank.com/api/hackathon/findATM", ATMRequestString));
+            
+        //bg1.SetActive(true);
+        //bg2.SetActive(true);
+        
+
+
+    }
+
+
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        ATMListItemOffset = 0.0f;
+
         //StartCoroutine(GetText());
         //StartCoroutine(Upload());
 
         //TestResponse tr = new TestResponse();
         //Debug.Log(ATMLokasyonResponse.CreateFromJSON("{\"name\":\"Dr Charles\",\"lives\":3,\"health\":0.8}"));
 
+        //bg1.SetActive(false);
+        //bg2.SetActive(false);
 
 
         string rawJson1 = "{\r\n\t\"latitude\":\"1236547893\",\r\n\t\"longitude\":\"98765432139\",\r\n\t\"radius\":\"5\",\r\n\t\"city\":\"Istanbul\",\r\n\t\"district\":\"Ataşehir\",\r\n\t\"searchText\":\"akbank\"\r\n}\r\n";
         string rawJson2 =  "{\"latitude\":\"1236547893\",\"longitude\":\"98765432139\",\"radius\":\"5\",\"city\":\"Istanbul\",\"district\":\"Ataşehir\",\"searchText\":\"akbank\"}";
-        StartCoroutine(PostRequest("https://apigate.akbank.com/api/hackathon/findATM", rawJson1));
+        //StartCoroutine(FindATM("https://apigate.akbank.com/api/hackathon/findATM", rawJson1));
     }
 
-    IEnumerator PostRequest(string url, string json)
+    IEnumerator FindATM(string url, string json)
     {
         var uwr = new UnityWebRequest(url, "POST");
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
@@ -76,13 +108,63 @@ public class HTTPTest : MonoBehaviour
         {
             Debug.Log("Received: " + uwr.downloadHandler.text);
 
-            Debug.Log(ATMLokasyonResponse.CreateFromJSON(uwr.downloadHandler.text).data[1].latitude);
+            ATMLokasyonResponse atmR = ATMLokasyonResponse.CreateFromJSON(uwr.downloadHandler.text);
+
+            Debug.Log(atmR.data[0].district);
+
+            for (int i = 0; i < atmR.data.Count; i++)
+            {
+                GameObject go = Instantiate(ATMListItem, new Vector3(ATMList.transform.position.x, ATMList.transform.position.y + ATMListItemOffset,0) , Quaternion.identity , ATMList.transform );
+                
+                Text t = go.transform.GetChild(0).GetComponent<Text>();
+                t.text = "ADRES:\n" + atmR.data[i].address;
+                t.text += "\n\nATM İsmi:\n" + atmR.data[i].name;
+
+
+                ATMListItemOffset += -300.0f;
+
+                /*if (i == 0)
+                {
+                    bg1.SetActive(true);
+                    
+                }else if(i == 1){
+                    bg2.SetActive(true);
+
+                }*/
+
+               
+            }
+
+            bg1.GetComponent<Image>().color = new Color(1,1,1,0.5f); 
+            bg2.GetComponent<Image>().color = new Color(1,1,1,0.5f); 
+
 
 
             //JObject json = JObject.Parse(uwr.downloadHandler.text);
             //Debug.Log("Ret Code " + uwr.downloadHandler.text.returnCode);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     IEnumerator GetText() {
         UnityWebRequest www = UnityWebRequest.Get("http://www.postman-echo.com/get");

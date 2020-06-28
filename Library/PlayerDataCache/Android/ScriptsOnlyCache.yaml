@@ -1,7 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - HTTPTest
+    - PaymentManager
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     UnityEditor.TestRunner.dll:
@@ -11,11 +11,13 @@ ScriptsOnlyBuild:
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Text
   sceneClasses:
-    Assets/Scenes/SampleScene.unity:
+    Assets/Scenes/Payment.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -35,18 +37,24 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11156}
+      Script: {instanceID: 11152}
     - Class: 114
-      Script: {instanceID: 11352}
+      Script: {instanceID: 11308}
     - Class: 114
-      Script: {instanceID: 11734}
+      Script: {instanceID: 11350}
     - Class: 114
-      Script: {instanceID: 12584}
+      Script: {instanceID: 11732}
     - Class: 114
-      Script: {instanceID: 12932}
+      Script: {instanceID: 12108}
     - Class: 114
-      Script: {instanceID: 15808}
+      Script: {instanceID: 12582}
+    - Class: 114
+      Script: {instanceID: 12930}
+    - Class: 114
+      Script: {instanceID: 30512}
     - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
@@ -115,6 +123,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Scrollbar
+  - hash:
+      serializedVersion: 2
+      Hash: acdb537719a22d1e26976824ef19dc4e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: HTTPTest
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -483,11 +497,11 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 2d5e55352612fe300d3e56bf5b9f50ec
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: HTTPTest
+    className: PaymentManager
   platform: 13
   scenePathNames:
-  - Assets/Scenes/SampleScene.unity
+  - Assets/Scenes/Payment.unity
   playerPath: C:/ARCADIA/Mahall/Builds/mahall.apk
